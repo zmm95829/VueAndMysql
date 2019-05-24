@@ -10,6 +10,11 @@ export default new Router({
       path: '/',
       name: 'HelloWorld',
       component: HelloWorld
+    },    
+    {
+      path: '/OU管理/用户查询',
+      name: 'HelloWorld',
+      component: () => "@/views/01vue_element/OU管理/用户管理/List"
     }
   ]
 })
