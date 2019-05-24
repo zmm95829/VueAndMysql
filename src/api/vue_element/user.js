@@ -22,7 +22,7 @@ conn.connect();
 // };
 
 // 增加用户接口
-router.post("/api/user/save", (req, res) => {
+router.post("/save", (req, res) => {
   var sql = $sql.user.save;
   var params = req.body;
   console.log("params");

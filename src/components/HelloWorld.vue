@@ -80,6 +80,8 @@
         </a>
       </li>
     </ul>
+    <button @click="toList">用户查询</button>
+<router-link :to="{name: '用户查询'}">用户查询</router-link>
   </div>
 </template>
 
@@ -90,6 +92,11 @@ export default {
     return {
       msg: "Welcome to Your Vue.js App"
     };
+  },
+  methods: {
+    toList: function(){
+      this.$router.push({ name: "用户查询"});
+    }
   }
 };
 </script>

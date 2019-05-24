@@ -43,16 +43,16 @@ export default {
     };
   },
   mounted() {
-    // this.$http.post("/api/user/save", {
-    //   username: "haha",
-    //   password: "sss"
-    // }, {}).then((response) => {
-    //   console.log("response");
-    //   console.log(response);
-    // }).catch(v => {
-    //   console.log("catch");
-    //   console.log(v);
-    // });
+    this.$http.post("api/user/save", {
+      username: "haha",
+      password: "sss"
+    }, {}).then((response) => {
+      console.log("response");
+      console.log(response);
+    }).catch(v => {
+      console.log("catch");
+      console.log(v);
+    });
   }
 };
 </script>

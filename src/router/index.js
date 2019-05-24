@@ -13,8 +13,8 @@ export default new Router({
     },
     {
       path: "/OU管理/用户查询",
-      name: "HelloWorld",
-      component: () => "@/views/01vue_element/OU管理/用户管理/List"
+      name: "用户查询",
+      component: () => import("@/views/01vue_element/OU管理/用户管理/List")
     }
   ]
 });
