@@ -10,16 +10,16 @@ var conn = mysql.createConnection(models.mysql);
 
 conn.connect();
 
-// var jsonWrite = function(res, ret) {
-//   if (typeof ret === "undefined") {
-//     res.json({
-//       code: "1",
-//       msg: "操作失败"
-//     });
-//   } else {
-//     res.json(ret);
-//   }
-// };
+var jsonWrite = function(res, ret) {
+  if (typeof ret === "undefined") {
+    res.json({
+      code: "1",
+      msg: "操作失败"
+    });
+  } else {
+    res.json(ret);
+  }
+};
 
 // 增加用户接口
 router.post("/save", (req, res) => {
@@ -37,6 +37,38 @@ router.post("/save", (req, res) => {
   //     jsonWrite(res, result);
   //   }
   // });
+});
+router.post("/list", (req, res) => {
+  var sql = $sql.user.list;
+  var params = req.body;
+  console.log("params");
+  console.log(params);
+  console.log("sql");
+  console.log(sql);
+  // conn.query(sql, [params.name], function(err, result) {
+  //   if (err) {
+  //     console.log(err);
+  //   }
+  //   if (result) {
+  //     jsonWrite(res, result);
+  //   }
+  // });
+});
+router.post("/add", (req, res) => {
+  var sql = $sql.user.add;
+  var params = req.body;
+  console.log("params");
+  console.log(params);
+  console.log("sql");
+  console.log(sql);
+  conn.query(sql, [params.username, params.password], function(err, result) {
+    if (err) {
+      console.log(err);
+    }
+    if (result) {
+      jsonWrite(res, result);
+    }
+  });
 });
 
 // router.post("/cancelReader", (req, res) => {

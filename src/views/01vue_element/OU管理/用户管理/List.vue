@@ -1,6 +1,8 @@
 <template>
   <section>
     <span>{{ title }}</span>
+    <button @click="list">list</button>
+    <button @click="add">add</button>
     <el-table :data="tableData" max-height="600">
       <el-table-column fixed prop="Id" label="ID" />
       <!-- <el-table-column
@@ -43,7 +45,18 @@ export default {
     };
   },
   mounted() {
-    this.$http.post("api/user/save", {
+    // this.$http.post("api/user/save", {
+    //   username: "haha",
+    //   password: "sss"
+    // }, {}).then((response) => {
+    //   console.log("response");
+    //   console.log(response);
+    // }).catch(v => {
+    //   console.log("catch");
+    //   console.log(v);
+    // });
+    
+    this.$http.post("api/user/list", {
       username: "haha",
       password: "sss"
     }, {}).then((response) => {
@@ -53,6 +66,32 @@ export default {
       console.log("catch");
       console.log(v);
     });
+  },
+  methods: {
+      list: function(){
+           this.$http.post("/api/user/list", {
+      username: "haha",
+      password: "sss"
+    }, {}).then((response) => {
+      console.log("response");
+      console.log(response);
+    }).catch(v => {
+      console.log("catch");
+      console.log(v);
+    });
+      },
+      add: function(){
+           this.$http.post("/api/user/add", {
+      username: "haha",
+      password: "sss"
+    }, {}).then((response) => {
+      console.log("response");
+      console.log(response);
+    }).catch(v => {
+      console.log("catch");
+      console.log(v);
+    });
+      }
   }
 };
 </script>
