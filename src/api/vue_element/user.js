@@ -10,7 +10,7 @@ var conn = mysql.createConnection(models.mysql);
 
 conn.connect();
 
-var jsonWrite = function(res, ret) {
+var jsonWrite = function (res, ret) {
   if (typeof ret === "undefined") {
     res.json({
       code: "1",
@@ -40,19 +40,22 @@ router.post("/save", (req, res) => {
 });
 router.post("/list", (req, res) => {
   var sql = $sql.user.list;
-  var params = req.body;
-  console.log("params");
-  console.log(params);
+  // var params = req.body;
+  // console.log("params");
+  // console.log(params);
   console.log("sql");
   console.log(sql);
-  // conn.query(sql, [params.name], function(err, result) {
-  //   if (err) {
-  //     console.log(err);
-  //   }
-  //   if (result) {
-  //     jsonWrite(res, result);
-  //   }
-  // });
+  conn.query(sql, function(err, result) {
+    console.log("1111111111");
+    if (err) {
+      console.log(err);
+    }
+    if (result) {
+      console.log("resultHAHAHA");
+      console.log(result);
+      return jsonWrite(res, result);
+    }
+  });
 });
 router.post("/add", (req, res) => {
   var sql = $sql.user.add;
@@ -61,7 +64,7 @@ router.post("/add", (req, res) => {
   console.log(params);
   console.log("sql");
   console.log(sql);
-  conn.query(sql, [params.username, params.password], function(err, result) {
+  conn.query(sql, [params.username, params.password], function (err, result) {
     if (err) {
       console.log(err);
     }
