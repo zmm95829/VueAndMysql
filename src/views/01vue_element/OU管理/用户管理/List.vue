@@ -14,6 +14,7 @@
     </el-form>
     <el-button @click="list">list</el-button>
     <el-button @click="add">add</el-button>
+    <el-button @click="update">update</el-button>
     <el-table :data="tableData">
       <el-table-column fixed prop="Id" label="ID"/>
       <el-table-column fixed prop="UserName" label="用户名"/>
@@ -39,13 +40,14 @@
   </section>
 </template>
 <script>
-import { add, list } from "@/api/vue_element/request";
+import { add, list, update } from "@/api/vue_element/request";
 export default {
   data() {
     return {
       title: "用户",
       tableData: [],
       modelItem: {
+          id: 1,
           username: "",
           password: "",
           sort: ""
@@ -57,7 +59,7 @@ export default {
   },
   methods: {
       list: function(){
-           list("user", {username: "3"}).then((response) => {
+           list("user").then((response) => {
       this.tableData = response.body;
     }).catch(v => {
       console.log("catch");
@@ -66,6 +68,14 @@ export default {
       },
       add: function(){
            add("user", this.modelItem, {}).then((response) => {
+      this.list();
+    }).catch(v => {
+      console.log("catch");
+      console.log(v);
+    });
+      },
+      update: function(){
+           update("user", this.modelItem, {}).then((response) => {
       this.list();
     }).catch(v => {
       console.log("catch");

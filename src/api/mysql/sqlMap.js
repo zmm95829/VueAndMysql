@@ -30,6 +30,16 @@ function add(object, tableName) {
   };
 };
 function list(object, tableName) {
+  console.log("object");
+  console.log(object);
+  console.log(object + "");
+  console.log(object + "" === "{}");
+  console.log("object  === {}=====================");
+  if (JSON.stringify(object) === "{}") {
+    return {
+      sql: `select * from ${tableName}`
+    };
+  }
   let props = "";
   Object.keys(object).forEach(key => {
     const isStr = (typeof object[key]) === "string";
@@ -40,5 +50,22 @@ function list(object, tableName) {
     sql: `select * from ${tableName} where ${props}`
   };
 };
+function update(object, tableName) {
+  // if (!object) {
+  //   return `select * from ${tableName}`;
+  // }
+  let props = "";
+  Object.keys(object).forEach(key => {
+    if (key !== "id") {
+      const isStr = (typeof object[key]) === "string";
+      props += `, ${key} = ${isStr ? ("'" + object[key] + "'") : object[key]}`;
+    }
+  });
+  props = props.slice(2);
+  return {
+    sql: `update ${tableName} set ${props} ${object.id ? `where id = ${object.id}` : ""}`
+  };
+};
 exports.add = add;
 exports.list = list;
+exports.update = update;

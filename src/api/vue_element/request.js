@@ -24,3 +24,16 @@ export function list(module, data) {
       return re;
     });
 }
+/**
+ * 修改数据
+ * @param {*} module 模块名
+ * @param {*} data 修改对象
+ */
+export function update(module, data) {
+  return Vue.http.post(`/api/${module}/update`, data)
+    .then((re) => {
+      console.log("这是修改结果");
+      console.log(re);
+      return re;
+    });
+}
