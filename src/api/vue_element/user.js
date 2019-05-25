@@ -4,7 +4,8 @@ var express = require("express");
 var router = express.Router();
 var mysql = require("mysql");
 var $sql = require("../mysql/sqlMap");
-
+var getSqlData = require("../mysql/sqlMap");
+// const getSql = require("@/utils/sqlSplice");
 // 连接数据库
 var conn = mysql.createConnection(models.mysql);
 
@@ -39,13 +40,14 @@ router.post("/save", (req, res) => {
   // });
 });
 router.post("/list", (req, res) => {
-  var sql = $sql.user.list;
-  // var params = req.body;
+  // var sql = $sql.user.list;
+  var params = req.body;
   // console.log("params");
   // console.log(params);
+  var sqlData = getSqlData.list(params, "ou_user");
   console.log("sql");
-  console.log(sql);
-  conn.query(sql, function(err, result) {
+  console.log(sqlData.sql);
+  conn.query(sqlData.sql, function(err, result) {
     console.log("1111111111");
     if (err) {
       console.log(err);
@@ -58,13 +60,14 @@ router.post("/list", (req, res) => {
   });
 });
 router.post("/add", (req, res) => {
-  var sql = $sql.user.add;
+  // var sql = $sql.user.add;
   var params = req.body;
+  var sqlData = getSqlData.add(params, "ou_user");
   console.log("params");
   console.log(params);
   console.log("sql");
-  console.log(sql);
-  conn.query(sql, [params.username, params.password], function (err, result) {
+  console.log(sqlData.sql);
+  conn.query(sqlData.sql, sqlData.data, function (err, result) {
     if (err) {
       console.log(err);
     }

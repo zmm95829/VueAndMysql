@@ -1,16 +1,19 @@
 <template>
   <section>
     <span>{{ title }}</span>
-    <el-form>
+    <el-form :inline="true">
         <el-form-item label="用户名">
             <el-input v-model="modelItem.username"/>
         </el-form-item>        
         <el-form-item label="密码">
             <el-input v-model="modelItem.password"/>
+        </el-form-item>  
+        <el-form-item label="排序">
+            <el-input v-model="modelItem.sort"/>
         </el-form-item>
     </el-form>
-    <button @click="list">list</button>
-    <button @click="add">add</button>
+    <el-button @click="list">list</el-button>
+    <el-button @click="add">add</el-button>
     <el-table :data="tableData">
       <el-table-column fixed prop="Id" label="ID"/>
       <el-table-column fixed prop="UserName" label="用户名"/>
@@ -36,6 +39,7 @@
   </section>
 </template>
 <script>
+import { add, list } from "@/api/vue_element/request";
 export default {
   data() {
     return {
@@ -43,7 +47,8 @@ export default {
       tableData: [],
       modelItem: {
           username: "",
-          password: ""
+          password: "",
+          sort: ""
       }
     };
   },
@@ -52,9 +57,7 @@ export default {
   },
   methods: {
       list: function(){
-           this.$http.post("/api/user/list").then((response) => {
-      console.log("response");
-      console.log(response);
+           list("user", {username: "3"}).then((response) => {
       this.tableData = response.body;
     }).catch(v => {
       console.log("catch");
@@ -62,9 +65,7 @@ export default {
     });
       },
       add: function(){
-           this.$http.post("/api/user/add", this.modelItem, {}).then((response) => {
-      console.log("response");
-      console.log(response);
+           add("user", this.modelItem, {}).then((response) => {
       this.list();
     }).catch(v => {
       console.log("catch");
