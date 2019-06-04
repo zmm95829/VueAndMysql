@@ -15,6 +15,11 @@ export default new Router({
       path: "/OU管理/用户查询",
       name: "用户查询",
       component: () => import("@/views/01vue_element/OU管理/用户管理/List")
+    },
+    {
+      path: "/个人管理/个人经历",
+      name: "个人经历",
+      component: () => import("@/views/01vue_element/个人管理/个人经历/List")
     }
   ]
 });
