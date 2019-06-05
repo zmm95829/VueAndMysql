@@ -82,7 +82,7 @@
     </ul>
     <button @click="toList">用户查询</button>
 <router-link :to="{name: '用户查询'}">用户查询</router-link>
-<router-link :to="{name: '个人经历'}">个人经历</router-link>
+<router-link :to="{name: 'GeRenJingLi'}">个人经历</router-link>
   </div>
 </template>
 

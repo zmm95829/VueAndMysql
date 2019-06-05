@@ -30,46 +30,45 @@
     </section>
 </template>
 <script>
-const columnOptions = [
-    { label: "日期", props: "date" },
-    { label: "名字", props: "name" },
-    { label: "地址", props: "address" },
-  ];
+import { getConfigByKey } from "./config";
+import { getDataByKey } from "./data";
+let columnOptions = [];
 export default {
+  props: {
+    // 对应config中的key，用于获取config和data的数据
+    key: {
+      type:String,
+      default: "test"
+    }
+  },
    data: function() {
       return {
-        tableData: [{
-          date: '2016-05-02',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄',
-          operate: ""
-        }, {
-          date: '2016-05-04',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1517 弄',
-          operate: ""
-        }, {
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1519 弄',
-          operate: ""
-        }, {
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄',
-          operate: ""
-        }],
+        tableData: [],
       // ==================type1=================动态展示列dynamicDisplay=======================================
         dynamicDisplay: {
           isIndeterminate: false,
           dialogVisible: false,
           checkAll: true,          
-          checkedColumn: columnOptions,
-          displayColumnTableOptions: columnOptions,
-          displayColumnDialogOptions: columnOptions,
+          checkedColumn: [],
+          displayColumnTableOptions: [],
+          displayColumnDialogOptions: [],
         }
       // ==================type1=================动态展示列dynamicDisplay=======================================
       }
+    },
+    mounted(){
+      // 获取要展示的全部列信息
+      columnOptions = getConfigByKey(this.key);
+      columnOptions = columnOptions && columnOptions.columnOptions || [];
+
+      this.dynamicDisplay.checkedColumn = columnOptions;
+      this.dynamicDisplay.displayColumnTableOptions = columnOptions;
+      this.dynamicDisplay.displayColumnDialogOptions = columnOptions;
+      // 获取表格数据
+      getDataByKey(this.key)
+      .then(v => {
+        this.tableData = v;
+      });
     },
     methods: {
       // ==================type1=================动态展示列dynamicDisplay=======================================

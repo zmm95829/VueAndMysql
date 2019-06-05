@@ -7,7 +7,7 @@
 <script>
 import ListTable from "@/components/ListTable";
 export default {
-  name: "个人经历",
+  name: "GeRenJingLi",
   components:{
     ListTable
   },

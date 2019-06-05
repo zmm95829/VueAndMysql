@@ -18,7 +18,7 @@ export default new Router({
     },
     {
       path: "/个人管理/个人经历",
-      name: "个人经历",
+      name: "GeRenJingLi",
       component: () => import("@/views/01vue_element/个人管理/个人经历/List")
     }
   ]
