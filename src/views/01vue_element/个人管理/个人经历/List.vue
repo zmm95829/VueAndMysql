@@ -2,7 +2,7 @@
   <section>
     <el-button @click="handleOpen('add')">新增</el-button>
     <el-button type="primary" @click="getList">查询</el-button>
-    <list-table :btn-show="btnShow" :formatter-columns="formatterColumns" content="myExperience" @delete="handleDeleteRow" @edit="handleEditRow"/>
+    <list-table :btn-show="btnShow" :formatter-columns="formatterColumns" :content="childContent" @delete="handleDeleteRow" @edit="handleEditRow"/>
     <el-dialog :visible.sync="dialogVisible" :append-to-body="true" title="新增经历" width="770px">
       <el-form>
         <el-form-item label="标题">
@@ -58,6 +58,7 @@ export default {
   },
   data() {
     return {
+      childContent: "myExperience",
       btnShow: {
         delete: true,
         edit: true
@@ -84,7 +85,8 @@ export default {
      * 查询数据
      */
     getList: function() {
-      ListTable.methods.refresh();
+      console.log(ListTable.methods.refresh);
+      ListTable.methods.refresh(this.childContent);
     },
     /**
      * 编辑数据

@@ -170,9 +170,10 @@ export default {
     },
     // ==================type1=================动态展示列dynamicDisplay=======================================
     // 刷新数据
-    refresh: function() {
+    refresh: function(key) {
       // 获取表格数据
-      getDataByKey(this.content)
+      console.log(key);
+      getDataByKey(key || this.content)
         .then(v => {
           this.tableData = v;
         });
