@@ -16,14 +16,7 @@
           </el-date-picker>
         </el-form-item>
         <el-form-item label="标签">
-          <el-tag
-            :key="tag"
-            v-for="tag in dynamicTags"
-            closable
-            :disable-transitions="false"
-            @close="handleClose(tag)">
-            {{tag}}
-          </el-tag>
+        <edit-tags :dynamic-tags.sync="dynamicTags"></edit-tags>
         </el-form-item>
         <el-form-item label="详细描述">
           <el-input v-model="model.description" clearable placeholder="请输入内容"/>
@@ -44,9 +37,14 @@
 </template>
 <script>
 import { cloneDeep } from "lodash";
+
 import ListTable from "@/components/ListTable";
+import EditTags from "@/components/Assembly/EditTags";
+
 import { add, update } from "@/api/vue_element/request";
+
 import { dateFormatByCustomFormat } from "@/utils/format"
+
 const modelData = {
   title: "",
   date: "",
@@ -57,7 +55,8 @@ const modelData = {
 export default {
   name: "GeRenJingLi",
   components:{
-    ListTable
+    ListTable,
+    EditTags
   },
   data() {
     return {
@@ -106,12 +105,6 @@ export default {
       this.model.tag = this.dynamicTags.join(",");
       add("experience", this.model)
       this.dialogVisible = false;
-    },
-    /**
-     * 删掉标签
-     */
-    handleClose(tag) {
-      this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
     },
     /**
      * 格式化时间
