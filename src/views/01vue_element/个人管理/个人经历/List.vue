@@ -39,13 +39,14 @@
       </span>
       </el-dialog>
         <el-button type="primary" @click="getList">查询</el-button>
-      <list-table content="myExperience"/>
+      <list-table content="myExperience" :formatter-columns="formatterColumns"/>
     </section>
 </template>
 <script>
 import { cloneDeep } from "lodash";
 import ListTable from "@/components/ListTable";
 import { add, update } from "@/api/vue_element/request";
+import { dateFormatByCustomFormat } from "@/utils/format"
 const modelData = {
   title: "",
   date: "",
@@ -65,6 +66,17 @@ export default {
       model: {},
       changeModel: {}
     };
+  },
+  computed: {
+    /**
+     * 列的格式化
+     */
+     formatterColumns: function() {
+        return {
+          columns: ["Date"],
+          functions: [this.dateFormatByCustomFormat]
+        }
+     }
   },
   methods: {
     /**
@@ -101,6 +113,12 @@ export default {
     handleClose(tag) {
       this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
     },
+    /**
+     * 格式化时间
+     */
+    dateFormatByCustomFormat(value) {
+      return dateFormatByCustomFormat(value, "YYYY年MM月DD日")
+    }
   }
 }
 </script>

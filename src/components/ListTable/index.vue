@@ -1,8 +1,13 @@
 <template>
   <section>
     <el-table :data="tableData" style="width: 100%">
-      <el-table-column v-for="(item,index) of dynamicDisplay.displayColumnTableOptions" :key="`item.label+${index}`" :label="item.label"
-        :prop="item.props" align="center">
+      <el-table-column 
+        v-for="(item,index) of dynamicDisplay.displayColumnTableOptions" 
+        :key="`item.label+${index}`" 
+        :label="item.label"
+        :prop="item.props" 
+        :formatter="formatterColumn"
+        align="center">
       </el-table-column>    
         <!-- // ==================type1=================动态展示列dynamicDisplay======================================= -->
       <el-table-column :render-header="renderHeader" align="center" fixed="right" label="操作" width="220px">
@@ -37,9 +42,14 @@ export default {
   props: {
     // 对应config中的key，用于获取config和data的数据
     content: {
-      type:String,
+      type: String,
       default: "test"
-    }
+    },
+    // 要格式化的列名与格式化方法组成的数组
+    formatterColumns: {
+      type: Object,
+      default: () => {}
+    }    
   },
    data: function() {
       return {
@@ -52,7 +62,7 @@ export default {
           checkedColumn: [],
           displayColumnTableOptions: [],
           displayColumnDialogOptions: [],
-        }
+        },
       // ==================type1=================动态展示列dynamicDisplay=======================================
       }
     },
@@ -132,7 +142,25 @@ export default {
         .then(v => {
           this.tableData = v;
         });
+      },
+      /**
+       * 将父组件传入的格式化参数分解
+       */
+      setFormatter: function() {
+         this.formatter.columns = this.formatterColumns.column || [];
+         this.formatter.functions = this.formatterColumns.functions || [];
+      },
+      /**
+       * 列的格式化
+       */
+      formatterColumn: function(row, column, cellValue) {
+        let re = cellValue;
+        const index = this.formatterColumns.columns.indexOf(column.property)
+        if (index!==-1 && this.formatterColumns.functions[index]) {
+          re = this.formatterColumns.functions[index](re);
         }
+        return re;
+      }
     }
 }
 </script>
