@@ -7,6 +7,15 @@ const config = [
       { label: "名字", props: "name" },
       { label: "地址", props: "address" }
     ]
+  },
+  {
+    key: "myExperience",
+    columnOptions: [
+      { label: "ID", props: "Id" },
+      { label: "标题", props: "Title" },
+      { label: "日期", props: "Date" },
+      { label: "标签", props: "Tag" }
+    ]
   }
 ];
 export function getConfigByKey(key) {

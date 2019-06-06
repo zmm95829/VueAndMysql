@@ -36,7 +36,7 @@ let columnOptions = [];
 export default {
   props: {
     // 对应config中的key，用于获取config和data的数据
-    key: {
+    content: {
       type:String,
       default: "test"
     }
@@ -58,17 +58,13 @@ export default {
     },
     mounted(){
       // 获取要展示的全部列信息
-      columnOptions = getConfigByKey(this.key);
+      columnOptions = getConfigByKey(this.content);
       columnOptions = columnOptions && columnOptions.columnOptions || [];
 
       this.dynamicDisplay.checkedColumn = columnOptions;
       this.dynamicDisplay.displayColumnTableOptions = columnOptions;
       this.dynamicDisplay.displayColumnDialogOptions = columnOptions;
-      // 获取表格数据
-      getDataByKey(this.key)
-      .then(v => {
-        this.tableData = v;
-      });
+      this.refresh();
     },
     methods: {
       // ==================type1=================动态展示列dynamicDisplay=======================================
@@ -127,8 +123,16 @@ export default {
         }
         this.dynamicDisplay.dialogVisible = false;
         this.dynamicDisplay.displayColumnTableOptions = val;
-      }
+      },
       // ==================type1=================动态展示列dynamicDisplay=======================================
+      // 刷新数据
+      refresh: function() {
+        // 获取表格数据
+        getDataByKey(this.content)
+        .then(v => {
+          this.tableData = v;
+        });
+        }
     }
 }
 </script>

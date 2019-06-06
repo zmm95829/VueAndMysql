@@ -11,6 +11,7 @@
 
 // web服务器使用3000端口监听后端服务器，并根据MySQL中的表内容设置后端api路由，跳转到数据库连接表入口
 const userApi = require("../vue_element/user");
+const experienceApi = require("../vue_element/experience");
 const bodyParser = require("body-parser");
 const express = require("express");
 const app = express();
@@ -22,6 +23,7 @@ app.use(bodyParser.urlencoded({
 
 // 后端api路由
 app.use("/api/user", userApi);
+app.use("/api/experience", experienceApi);
 // 监听端口
 app.listen(3000);
 console.log("success listen at port:3000......");

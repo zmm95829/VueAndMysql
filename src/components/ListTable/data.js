@@ -1,3 +1,4 @@
+import { list } from "@/api/vue_element/request";
 const data = [{
   date: "2016-05-02",
   name: "王小虎",
@@ -21,7 +22,7 @@ const data = [{
 }];
 export function getDataByKey(key) {
   switch (key) {
-    case "1": return Promise.resolve("Ok");
+    case "myExperience": return list("experience").then(v => v.data);
     default: return Promise.resolve()
       .then(_ => data);
   }
