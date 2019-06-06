@@ -59,8 +59,6 @@ export default {
       inputValue: ""
     };
   },
-  mounted() {
-  },
   watch: {
     // 标签内容改变，改变父组件的相应值
     dynamicTags: function() {
