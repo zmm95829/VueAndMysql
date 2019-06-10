@@ -1,8 +1,7 @@
 <template>
   <section>
     <el-button @click="handleOpen('add')">新增</el-button>
-    <el-button type="primary" @click="getList">查询</el-button>
-    <list-table :btn-show="btnShow" :formatter-columns="formatterColumns" content="myExperience" @delete="handleDeleteRow" @edit="handleEditRow"/>
+    <list-table :btn-show="btnShow" :formatter-columns="formatterColumns" :is-refresh="child.refreshList" content="myExperience" @delete="handleDeleteRow" @edit="handleEditRow"/>
     <el-dialog :visible.sync="dialogVisible" :append-to-body="true" title="新增经历" width="770px">
       <el-form>
         <el-form-item label="标题">
@@ -58,6 +57,9 @@ export default {
   },
   data() {
     return {
+      child: {
+        refreshList: false
+      },
       btnShow: {
         delete: true,
         edit: true
@@ -81,12 +83,6 @@ export default {
   },
   methods: {
     /**
-     * 查询数据
-     */
-    getList: function() {
-      ListTable.methods.refresh();
-    },
-    /**
      * 编辑数据
      */
     handleEditRow: function(row, index) {
@@ -108,6 +104,7 @@ export default {
      * 打开弹窗
      */
     handleOpen: function(type, changeItem) {
+      this.dynamicTags = [];
       switch (type) {
         case "add":
           this.model = cloneDeep(modelData);
@@ -125,6 +122,8 @@ export default {
       this.model.tag = this.dynamicTags.join(",");
       add("experience", this.model)
       this.dialogVisible = false;
+      // 刷新查询页面
+      this.child.refreshList = true;
     },
     /**
      * 格式化时间
