@@ -66,6 +66,12 @@ function update(object, tableName) {
     sql: `update ${tableName} set ${props} ${object.id ? `where id = ${object.id}` : ""}`
   };
 };
+function deleteById(object, tableName) {
+  return {
+    sql: `delete ${tableName} where id = ${object.id}}`
+  };
+};
 exports.add = add;
 exports.list = list;
 exports.update = update;
+exports.deleteById = deleteById;

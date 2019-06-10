@@ -3,7 +3,7 @@
     <el-button @click="handleOpen('add')">新增</el-button>
     <list-table :btn-show="btnShow" :formatter-columns="formatterColumns" :is-refresh="child.refreshList" content="myExperience" @delete="handleDeleteRow" @edit="handleEditRow"/>
     <el-dialog :visible.sync="dialogVisible" :append-to-body="true" title="新增经历" width="770px">
-      <el-form>
+      <el-form :model="model">
         <el-form-item label="标题">
           <el-input v-model="model.title" clearable placeholder="请输入内容"/>
         </el-form-item>
@@ -33,14 +33,12 @@
   </section>
 </template>
 <script>
-import { cloneDeep } from "lodash";
-
 import ListTable from "@/components/ListTable";
 import EditTags from "@/components/Assembly/EditTags";
 
 import { add, update } from "@/api/vue_element/request";
 
-import { dateFormatByCustomFormat } from "@/utils/format"
+import { dateFormatByCustomFormat, objectKeyTitleCase } from "@/utils/format"
 
 const modelData = {
   title: "",
@@ -86,15 +84,18 @@ export default {
      * 编辑数据
      */
     handleEditRow: function(row, index) {
+      console.log("编辑数据");
       console.log("row");
       console.log(row);
       console.log("index");
       console.log(index);
+      this.handleOpen("edit", row);
     },
     /**
      * 删除数据
      */
     handleDeleteRow: function(row, index) {
+      console.log("删除数据");
       console.log("row");
       console.log(row);
       console.log("index");
@@ -105,12 +106,20 @@ export default {
      */
     handleOpen: function(type, changeItem) {
       this.dynamicTags = [];
+      // ===========================
+      Object.keys(changeItem).forEach(v => {
+        if(v && v.charAt(0)) {
+          v = v.charAt(0).toLowerCase() + v.substring(1);
+        }
+      });
+      // ===========================
       switch (type) {
         case "add":
           this.model = cloneDeep(modelData);
           break;
         default:
-          this.model = Object.assign({}, changeItem);
+          this.model = Object.assign({},  objectKeyTitleCase(changeItem));
+          this.dynamicTags = changeItem.Tag.split(",");
           break;
       }
       this.dialogVisible = true;

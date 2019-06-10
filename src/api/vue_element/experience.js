@@ -55,4 +55,17 @@ router.post("/add", (req, res) => {
   });
 });
 
+router.get("/delete", (req, res) => {
+  var params = req.body;
+  var sqlData = getSqlData.deleteById(params, "my_experience");
+  conn.query(sqlData.sql, sqlData.data, function (err, result) {
+    if (err) {
+      console.log(err);
+    }
+    if (result) {
+      jsonWrite(res, result);
+    }
+  });
+});
+
 module.exports = router;
