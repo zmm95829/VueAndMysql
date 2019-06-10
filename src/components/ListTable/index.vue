@@ -189,7 +189,8 @@ export default {
     refresh: function() {
       console.log("===================刷新数据==============");
       // 获取表格数据
-      getDataByKey(this.content)
+      console.log(key);
+      getDataByKey(key || this.content)
         .then(v => {
           this.tableData = v;
         });

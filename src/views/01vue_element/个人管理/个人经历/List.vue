@@ -1,7 +1,7 @@
 <template>
   <section>
     <el-button @click="handleOpen('add')">新增</el-button>
-    <list-table :btn-show="btnShow" :formatter-columns="formatterColumns" :is-refresh="child.refreshList" content="myExperience" @delete="handleDeleteRow" @edit="handleEditRow"/>
+    <list-table :btn-show="btnShow" :formatter-columns="formatterColumns" :is-refresh="child.refreshList" :content="childContent" @delete="handleDeleteRow" @edit="handleEditRow"/>
     <el-dialog :visible.sync="dialogVisible" :append-to-body="true" title="新增经历" width="770px">
       <el-form :model="model">
         <el-form-item label="标题">
@@ -58,6 +58,7 @@ export default {
       child: {
         refreshList: false
       },
+      childContent: "myExperience",
       btnShow: {
         delete: true,
         edit: true
