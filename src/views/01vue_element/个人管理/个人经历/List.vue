@@ -104,7 +104,7 @@ export default {
       console.log("index");
       console.log(index);
 deleteById("experience", row.id || row.Id).then(v => {
-  this.child.refreshList = true;
+  this.child.refreshList = !this.child.refreshList;
 })
     },
     /**
@@ -133,10 +133,17 @@ deleteById("experience", row.id || row.Id).then(v => {
      */
     handleAddOk: function() {
       this.model.tag = this.dynamicTags.join(",");
-      add("experience", this.model)
+      Promise.resolve().then(_ => {
+      if(this.model.id) {
+        update("experience", this.model);
+      } else {
+        add("experience", this.model);
+      }
+      }).then(_ => {
+        // 刷新查询页面
+  this.child.refreshList = !this.child.refreshList;
+      })
       this.dialogVisible = false;
-      // 刷新查询页面
-      this.child.refreshList = true;
     },
     /**
      * 格式化时间

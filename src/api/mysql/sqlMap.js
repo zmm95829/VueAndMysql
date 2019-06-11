@@ -58,7 +58,7 @@ function update(object, tableName) {
   Object.keys(object).forEach(key => {
     if (key !== "id") {
       const isStr = (typeof object[key]) === "string";
-      props += `, ${key} = ${isStr ? ("'" + object[key] + "'") : object[key]}`;
+      props += `, ${key} = ${isStr ? ("'" + (object[key] && object[key].replace(/'/g, "''")) + "'") : object[key]}`;
     }
   });
   props = props.slice(2);

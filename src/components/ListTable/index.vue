@@ -121,9 +121,7 @@ export default {
      * 父组件要求刷新数据时重新查询数据
      */
     isRefresh: function() {
-      if(this.isRefresh) {
         this.refresh();
-      }
     }
   },
   methods: {
