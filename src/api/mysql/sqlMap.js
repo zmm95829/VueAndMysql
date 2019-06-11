@@ -68,7 +68,7 @@ function update(object, tableName) {
 };
 function deleteById(object, tableName) {
   return {
-    sql: `delete ${tableName} where id = ${object.id}}`
+    sql: `delete from ${tableName} where id = ${object.id}`
   };
 };
 exports.add = add;

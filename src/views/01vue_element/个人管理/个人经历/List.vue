@@ -1,7 +1,7 @@
 <template>
   <section>
     <el-button @click="handleOpen('add')">新增</el-button>
-    <list-table :btn-show="btnShow" :formatter-columns="formatterColumns" :is-refresh="child.refreshList" :content="childContent" @delete="handleDeleteRow" @edit="handleEditRow"/>
+    <list-table :btn-show="btnShow" :formatter-columns="formatterColumns" :is-refresh="child.refreshList" :content="child.childContent" @delete="handleDeleteRow" @edit="handleEditRow"/>
     <el-dialog :visible.sync="dialogVisible" :append-to-body="true" title="新增经历" width="770px">
       <el-form :model="model">
         <el-form-item label="标题">
@@ -33,10 +33,12 @@
   </section>
 </template>
 <script>
+import { cloneDeep } from "lodash";
+
 import ListTable from "@/components/ListTable";
 import EditTags from "@/components/Assembly/EditTags";
 
-import { add, update } from "@/api/vue_element/request";
+import { add, update, deleteById } from "@/api/vue_element/request";
 
 import { dateFormatByCustomFormat, objectKeyTitleCase } from "@/utils/format"
 
@@ -56,9 +58,9 @@ export default {
   data() {
     return {
       child: {
-        refreshList: false
+        refreshList: false,
+      childContent: "myExperience"
       },
-      childContent: "myExperience",
       btnShow: {
         delete: true,
         edit: true
@@ -101,24 +103,25 @@ export default {
       console.log(row);
       console.log("index");
       console.log(index);
+deleteById("experience", row.id || row.Id).then(v => {
+  this.child.refreshList = true;
+})
     },
     /**
      * 打开弹窗
      */
     handleOpen: function(type, changeItem) {
       this.dynamicTags = [];
-      // ===========================
-      Object.keys(changeItem).forEach(v => {
-        if(v && v.charAt(0)) {
-          v = v.charAt(0).toLowerCase() + v.substring(1);
-        }
-      });
-      // ===========================
       switch (type) {
         case "add":
           this.model = cloneDeep(modelData);
           break;
         default:
+           Object.keys(changeItem).forEach(v => {
+        if(v && v.charAt(0)) {
+          v = v.charAt(0).toLowerCase() + v.substring(1);
+        }
+      });
           this.model = Object.assign({},  objectKeyTitleCase(changeItem));
           this.dynamicTags = changeItem.Tag.split(",");
           break;

@@ -43,7 +43,7 @@ export function update(module, data) {
  * @param {*} data 修改对象
  */
 export function deleteById(module, id) {
-  return Vue.http.post(`/api/${module}/delete`, id)
+  return Vue.http.post(`/api/${module}/delete`, {id: id})
     .then((re) => {
       console.log("这是修改结果");
       console.log(re);
