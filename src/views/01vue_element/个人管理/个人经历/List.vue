@@ -1,10 +1,9 @@
 <template>
   <section>
     <el-button @click="handleOpen('add')">新增</el-button>
-    <el-button type="primary" @click="getList">查询</el-button>
-    <list-table :btn-show="btnShow" :formatter-columns="formatterColumns" :content="childContent" @delete="handleDeleteRow" @edit="handleEditRow"/>
+    <list-table :btn-show="btnShow" :formatter-columns="formatterColumns" :is-refresh="child.refreshList" :content="child.childContent" @delete="handleDeleteRow" @edit="handleEditRow"/>
     <el-dialog :visible.sync="dialogVisible" :append-to-body="true" title="新增经历" width="770px">
-      <el-form>
+      <el-form :model="model">
         <el-form-item label="标题">
           <el-input v-model="model.title" clearable placeholder="请输入内容"/>
         </el-form-item>
@@ -41,9 +40,9 @@ import { cloneDeep } from "lodash";
 import ListTable from "@/components/ListTable";
 import EditTags from "@/components/Assembly/EditTags";
 
-import { add, update } from "@/api/vue_element/request";
+import { add, update, deleteById } from "@/api/vue_element/request";
 
-import { dateFormatByCustomFormat } from "@/utils/format"
+import { dateFormatByCustomFormat, objectKeyTitleCase } from "@/utils/format"
 
 const modelData = {
   title: "",
@@ -60,7 +59,10 @@ export default {
   },
   data() {
     return {
-      childContent: "myExperience",
+      child: {
+        refreshList: false,
+      childContent: "myExperience"
+      },
       btnShow: {
         delete: true,
         edit: true
@@ -97,30 +99,43 @@ export default {
      * 编辑数据
      */
     handleEditRow: function(row, index) {
+      console.log("编辑数据");
       console.log("row");
       console.log(row);
       console.log("index");
       console.log(index);
+      this.handleOpen("edit", row);
     },
     /**
      * 删除数据
      */
     handleDeleteRow: function(row, index) {
+      console.log("删除数据");
       console.log("row");
       console.log(row);
       console.log("index");
       console.log(index);
+deleteById("experience", row.id || row.Id).then(v => {
+  this.child.refreshList = !this.child.refreshList;
+})
     },
     /**
      * 打开弹窗
      */
     handleOpen: function(type, changeItem) {
+      this.dynamicTags = [];
       switch (type) {
         case "add":
           this.model = cloneDeep(modelData);
           break;
         default:
-          this.model = Object.assign({}, changeItem);
+           Object.keys(changeItem).forEach(v => {
+        if(v && v.charAt(0)) {
+          v = v.charAt(0).toLowerCase() + v.substring(1);
+        }
+      });
+          this.model = Object.assign({},  objectKeyTitleCase(changeItem));
+          this.dynamicTags = changeItem.Tag.split(",");
           break;
       }
       this.dialogVisible = true;
@@ -130,7 +145,16 @@ export default {
      */
     handleAddOk: function() {
       this.model.tag = this.dynamicTags.join(",");
-      add("experience", this.model)
+      Promise.resolve().then(_ => {
+      if(this.model.id) {
+        update("experience", this.model);
+      } else {
+        add("experience", this.model);
+      }
+      }).then(_ => {
+        // 刷新查询页面
+  this.child.refreshList = !this.child.refreshList;
+      })
       this.dialogVisible = false;
     },
     /**

@@ -1,5 +1,6 @@
 <template>
   <section>
+    <el-button type="primary" @click="refresh">查询</el-button>
     <el-table :data="tableData" style="width: 100%">
       <el-table-column
         v-for="(item,index) of dynamicDisplay.displayColumnTableOptions"
@@ -83,6 +84,11 @@ export default {
           edit: false
         };
       }
+    },
+    // 父组件要求刷新数据
+    isRefresh: {
+      type: Boolean,
+      default: false
     }
   },
   data: function() {
@@ -109,6 +115,14 @@ export default {
     this.dynamicDisplay.displayColumnTableOptions = columnOptions;
     this.dynamicDisplay.displayColumnDialogOptions = columnOptions;
     this.refresh();
+  },
+  watch: {
+    /**
+     * 父组件要求刷新数据时重新查询数据
+     */
+    isRefresh: function() {
+        this.refresh();
+    }
   },
   methods: {
     // ==================type1=================动态展示列dynamicDisplay=======================================
@@ -170,10 +184,9 @@ export default {
     },
     // ==================type1=================动态展示列dynamicDisplay=======================================
     // 刷新数据
-    refresh: function(key) {
-      // 获取表格数据
-      console.log(key);
-      getDataByKey(key || this.content)
+    refresh: function() {
+      console.log("===================刷新数据==============");
+      getDataByKey(this.content)
         .then(v => {
           this.tableData = v;
         });

@@ -58,7 +58,7 @@ function update(object, tableName) {
   Object.keys(object).forEach(key => {
     if (key !== "id") {
       const isStr = (typeof object[key]) === "string";
-      props += `, ${key} = ${isStr ? ("'" + object[key] + "'") : object[key]}`;
+      props += `, ${key} = ${isStr ? ("'" + (object[key] && object[key].replace(/'/g, "''")) + "'") : object[key]}`;
     }
   });
   props = props.slice(2);
@@ -66,6 +66,12 @@ function update(object, tableName) {
     sql: `update ${tableName} set ${props} ${object.id ? `where id = ${object.id}` : ""}`
   };
 };
+function deleteById(object, tableName) {
+  return {
+    sql: `delete from ${tableName} where id = ${object.id}`
+  };
+};
 exports.add = add;
 exports.list = list;
 exports.update = update;
+exports.deleteById = deleteById;
