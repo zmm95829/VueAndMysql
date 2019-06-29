@@ -34,6 +34,8 @@
   </section>
 </template>
 <script>
+import { mapGetters } from "vuex";
+
 import { cloneDeep } from "lodash";
 
 import ListTable from "@/components/ListTable";
@@ -70,6 +72,7 @@ export default {
     };
   },
   computed: {
+    ...mapGetters(["currentAccount"]),
     /**
      * 列的格式化
      */
@@ -85,6 +88,8 @@ export default {
      * 查询数据
      */
     getList: function() {
+      console.log(this.currentAccount);
+      console.log(this.$store.state.user.currentAccount);
       console.log(ListTable.methods.refresh);
       ListTable.methods.refresh(this.childContent);
     },
