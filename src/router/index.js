@@ -1,15 +1,30 @@
 import Vue from "vue";
 import Router from "vue-router";
-import HelloWorld from "@/components/HelloWorld";
-
+// import HelloWorld from "@/components/HelloWorld";
+import Layout from "@/components/Layout";
 Vue.use(Router);
 
 export default new Router({
   routes: [
+    // {
+    //   path: "/",
+    //   name: "HelloWorld",
+    //   component: HelloWorld
+    // },
     {
       path: "/",
-      name: "HelloWorld",
-      component: HelloWorld
+      component: Layout,
+      redirect: "/home",
+      children: [
+        {
+          path: "home",
+          name: "Home",
+          component: () => import("@/views/00home/home"),
+          meta: {
+            title: "首页"
+          }
+        }
+      ]
     },
     {
       path: "/OU管理/用户查询",

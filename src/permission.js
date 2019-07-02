@@ -6,4 +6,5 @@ router.beforeEach((to, from, next) => {
   if (store.getters.currentAccount === null) {
     store.dispatch("GetUserInfo");
   }
+  next();
 });
