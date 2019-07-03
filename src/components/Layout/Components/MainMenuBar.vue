@@ -9,8 +9,5 @@ export default {
 }
 </script>
 <style>
-.mainMenuBar{
-  background-color:red;
-}
 </style>
 

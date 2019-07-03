@@ -19,7 +19,11 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
-#app, html, body {
+#app, html{
   height: 100%;
+}
+body{
+  height: calc(100% - 68px);
+  position: relative;
 }
 </style>

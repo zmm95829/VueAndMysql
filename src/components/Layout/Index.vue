@@ -8,15 +8,17 @@
       <MainMenuBar class="mainMenuBar"/>
       </div>
       <SideBar class="side-bar"/>
+      <AppMain class="app-main"/>
     </div>
 </template>
 
 <script>
-import { MainMenuBar, SideBar } from "./Components";
+import { MainMenuBar, SideBar, AppMain } from "./Components";
 export default {
     components: {
       MainMenuBar,
-      SideBar
+      SideBar,
+      AppMain
     }
 }
 </script>
@@ -29,6 +31,7 @@ export default {
     height: 66px;
     position: fixed;
     top: 0px;
+    left: 0px;
 }
 .top-bar-logo{
     float: left;
@@ -54,5 +57,14 @@ export default {
     bottom: 0;
     left: 0;
     z-index: 1001;
+    width: 200px;
+}
+.app-main{
+  background-color: yellow;
+  position: fixed;
+  right: 0px;
+  top: 66px;
+  width: calc(100% - 200px);
+  height: 100%;
 }
 </style>
