@@ -20,12 +20,25 @@ const user = {
     }
   }
 };
+const layout = {
+  state: {
+    opened: false
+  },
+  mutations: {
+    SET_SIDERBAR_OPENE: (state) => {
+      state.opened = !state.opened;
+      console.log("SET_SIDERBAR_OPENE");
+    }
+  }
+};
 const getters = {
-  currentAccount: ({ user }) => user.currentAccount
+  currentAccount: ({ user }) => user.currentAccount,
+  siderBarOpened: ({ layout }) => layout.opened
 };
 const store = new Vuex.Store({
   modules: {
-    user
+    user,
+    layout
   },
   getters
 });

@@ -1,10 +1,12 @@
 <template>
-    <section>
-        <span>主内容</span>
-    </section>
+  <section class="app-main">
+    <RouterView />
+  </section>
 </template>
+
 <script>
 export default {
-    
-}
+  name: "AppMain"
+};
 </script>
+
